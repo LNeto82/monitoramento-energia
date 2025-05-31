@@ -1,0 +1,44 @@
+Simula um sistema que monitora temperatura e pressão de uma petrolífera:
+
+1 - API NODE: (lógica para API no VS Code)
+
+GET - retorna dados de temperatura e pressao com cache Redis para melhor resposta.
+
+POST - envia alerta uma mensagem para a API Python.
+
+Como executar: instalar as dependências, entrar na pasta do projeto node, cd api-sensores,no terminal digite
+npm install e instalara, express, axios, redis, o app rodou na porta 4001 com o comando no terminal npm run start.
+
+API PYTHON:
+
+POST /events: recebe e salva um alerta que chega da API Node ou PHP.
+
+GET /events: retorna dados que registra.
+
+Como executar: entrar na pasta do projet cd api-eventos, depois pip install -r requirements.txt python app.py, 
+Usei a porta 5002 por estar sempre livre. 
+
+
+API 3 – PHP: Módulo de Logística
+Gerencia o transporte de equipamentos e peças. publica mensagens urgentes na fila RabbitMQ.
+
+GET /equipments: retorna lista de equipamentos.
+
+POST /dispatch: envia mensagem urgente para a fila RabbitMQ.
+
+Como executar:entar na pasta cd api-logistica  digitar o comando php -S localhost:8000 no terminal.
+
+
+2 - Como elas se comunicam:
+
+API Node chama API Python, tudo se comunicando por HTTP e método post. API PHP chama a API Python usando rabbitMQ. 
+
+3 - REDIS:
+
+Na API Node e Python são usadas para diminuir a carga no banco de dados no método GET para melhorar a performance
+reduzindi chamadas no DB.
+
+4 - RABBITMQ:
+
+Usada na API PHP e Python. Mensagens urgentes são colocadas e publicadas na fila por um método POST da app PHP e 
+a PYthon tem função de armazenar com redis.
